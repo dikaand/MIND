@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MIND — Notes</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="notes-page">
+
+
+<div class="background"></div>
+<div class="orb one"></div>
+<div class="orb two"></div>
+<div class="orb three"></div>
+
+<nav>
+    <a href="index.html" class="logo">MIND</a>
+
+    <div class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="1.html" class="active">Write</a>
+        <a href="2.html">My Notes</a>
+    </div>
+</nav>
+
+
+<main class="notes-container">
+
+    <section class="notes-box">
+
+        <div class="notes-header">
+
+            <div>
+                <p class="small-text" id="pageLabel">
+                    YOUR PRIVATE SPACE
+                </p>
+
+                <h2 id="pageTitle">
+                    My Thoughts
+                </h2>
+            </div>
+
+            <div class="date-box">
+                <span id="day">00</span>
+                <small id="month">MON</small>
+            </div>
+
+        </div>
+
+
+        <p class="notes-description">
+            Tidak semua pikiran harus disimpan di dalam kepala.
+            Tuliskan semuanya di sini, perlahan dan tanpa terburu-buru.
+        </p>
+
+
+        <div class="journal">
+
+            <div class="journal-top">
+                <span>✦ MIND JOURNAL</span>
+                <span id="wordCount">0 words</span>
+            </div>
+
+
+            <div class="writing-area">
+
+                <div class="line-numbers">
+                    <span>01</span>
+                    <span>02</span>
+                    <span>03</span>
+                    <span>04</span>
+                    <span>05</span>
+                    <span>06</span>
+                    <span>07</span>
+                    <span>08</span>
+                </div>
+
+                <textarea
+                    id="notes"
+                    placeholder="Apa yang sedang kamu pikirkan hari ini?"
+                ></textarea>
+
+            </div>
+
+        </div>
+
+
+        <div class="notes-actions">
+
+            <button
+                id="saveButton"
+                class="save-button"
+                type="button"
+            >
+                <span>✦</span>
+                <span id="saveButtonText">
+                    Save Note
+                </span>
+            </button>
+
+            <button
+                id="clearButton"
+                class="clear-button"
+                type="button"
+            >
+                Clear
+            </button>
+
+        </div>
+
+
+        <p
+            class="save-status"
+            id="status"
+        >
+            Your thoughts stay with you.
+        </p>
+
+    </section>
+
+</main>
+
+
+<div class="bottom-text">
+    TAKE YOUR TIME • THERE IS NO RUSH
+</div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+    /* =====================================
+       SUPABASE CONFIGURATION
+       Ganti dua nilai di bawah ini
+    ===================================== */
+
+    const SUPABASE_URL = "https://ysnmknwfisoplrqchanp.supabase.co";
+    const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_lynalr3nWQLWk1F2Fsg00A_3MIIdCZH";
+
+    const { createClient } = supabase;
+    const db = createClient(
+        SUPABASE_URL,
+        SUPABASE_PUBLISHABLE_KEY
+    );
+
+
+    /* =====================================
+       ELEMENTS
+    ===================================== */
+
+    const textarea = document.getElementById("notes");
+    const wordCounter = document.getElementById("wordCount");
+    const statusText = document.getElementById("status");
+    const saveButton = document.getElementById("saveButton");
+    const saveButtonText = document.getElementById("saveButtonText");
+    const clearButton = document.getElementById("clearButton");
+    const pageLabel = document.getElementById("pageLabel");
+    const pageTitle = document.getElementById("pageTitle");
+
+
+    /* =====================================
+       DATE
+    ===================================== */
+
+    const today = new Date();
+
+    document.getElementById("day").textContent =
+        String(today.getDate()).padStart(2, "0");
+
+    document.getElementById("month").textContent =
+        today.toLocaleString("en-US", {
+            month: "short"
+        }).toUpperCase();
+
+
+    /* =====================================
+       WORD COUNT
+    ===================================== */
+
+    function updateWordCount() {
+        const text = textarea.value.trim();
+
+        if (text === "") {
+            wordCounter.textContent = "0 words";
+            return;
+        }
+
+        const words = text.split(/\s+/).length;
+        wordCounter.textContent = words + " words";
+    }
+
+    textarea.addEventListener("input", updateWordCount);
+
+
+    /* =====================================
+       EDIT MODE
+    ===================================== */
+
+    const urlParams = new URLSearchParams(
+        window.location.search
+    );
+
+    const editId = urlParams.get("edit");
+
+
+    async function loadNoteForEditing() {
+        if (editId === null) {
+            return;
+        }
+
+        const { data: note, error } = await db
+            .from("notes")
+            .select("*")
+            .eq("id", editId)
+            .single();
+
+        if (error || !note) {
+            statusText.textContent = "Note not found.";
+            return;
+        }
+
+        textarea.value = note.text;
+        updateWordCount();
+
+        pageLabel.textContent = "EDIT YOUR THOUGHT";
+        pageTitle.textContent = "Edit Note";
+        saveButtonText.textContent = "Update Note";
+        statusText.textContent =
+            "You are editing a saved thought.";
+
+        textarea.focus();
+    }
+
+
+    /* =====================================
+       SAVE / UPDATE NOTE
+    ===================================== */
+
+    async function saveNote() {
+        const text = textarea.value.trim();
+
+        if (text.length === 0) {
+            statusText.textContent =
+                "Write something before saving.";
+
+            textarea.focus();
+            return;
+        }
+
+        saveButton.disabled = true;
+        saveButtonText.textContent = "Saving...";
+
+        const words = text.split(/\s+/).length;
+
+        const date = new Date().toLocaleDateString(
+            "en-US",
+            {
+                day: "numeric",
+                month: "long",
+                year: "numeric"
+            }
+        );
+
+        let result;
+
+        if (editId !== null) {
+            result = await db
+                .from("notes")
+                .update({
+                    text: text,
+                    words: words,
+                    date: date
+                })
+                .eq("id", editId);
+        } else {
+            result = await db
+                .from("notes")
+                .insert({
+                    text: text,
+                    date: date,
+                    words: words
+                });
+        }
+
+        if (result.error) {
+            console.error(result.error);
+
+            statusText.textContent =
+                "Failed to save. Check Supabase settings.";
+
+            saveButton.disabled = false;
+            saveButtonText.textContent =
+                editId !== null ? "Update Note" : "Save Note";
+
+            return;
+        }
+
+        if (editId !== null) {
+            statusText.textContent =
+                "✓ Note updated successfully.";
+
+            setTimeout(function() {
+                window.location.href = "2.html";
+            }, 600);
+
+            return;
+        }
+
+        textarea.value = "";
+        updateWordCount();
+
+        statusText.textContent =
+            "✓ Saved. Ready for a new thought.";
+
+        saveButton.disabled = false;
+        saveButtonText.textContent = "Save Note";
+        textarea.focus();
+    }
+
+
+    /* =====================================
+       CLEAR
+    ===================================== */
+
+    function clearNote() {
+        textarea.value = "";
+        updateWordCount();
+
+        statusText.textContent =
+            "Your journal is ready for new thoughts.";
+
+        textarea.focus();
+    }
+
+
+    /* =====================================
+       BUTTONS
+    ===================================== */
+
+    saveButton.addEventListener("click", saveNote);
+    clearButton.addEventListener("click", clearNote);
+
+
+    /* =====================================
+       CTRL + ENTER
+    ===================================== */
+
+    textarea.addEventListener("keydown", function(event) {
+        if (event.ctrlKey && event.key === "Enter") {
+            event.preventDefault();
+            saveNote();
+        }
+    });
+
+
+    updateWordCount();
+    loadNoteForEditing();
+</script>
+```
+
+</body>
+</html>

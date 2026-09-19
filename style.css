@@ -1,0 +1,1468 @@
+/* ==================================================
+   GLOBAL
+================================================== */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+
+    background: #080b14;
+    color: #ffffff;
+
+    overflow: hidden;
+}
+
+
+/* ==================================================
+   BACKGROUND
+================================================== */
+
+.background {
+    position: fixed;
+    inset: 0;
+
+    background:
+        radial-gradient(
+            circle at 20% 30%,
+            rgba(74, 98, 150, 0.18),
+            transparent 35%
+        ),
+
+        radial-gradient(
+            circle at 80% 70%,
+            rgba(100, 70, 150, 0.15),
+            transparent 40%
+        ),
+
+        linear-gradient(
+            135deg,
+            #070912,
+            #0d1220,
+            #080b14
+        );
+
+    z-index: -2;
+}
+
+
+/* ==================================================
+   GLOWING ORBS
+================================================== */
+
+.orb {
+    position: absolute;
+
+    border-radius: 50%;
+
+    filter: blur(80px);
+
+    opacity: 0.35;
+
+    animation:
+        float 10s ease-in-out infinite alternate;
+}
+
+.orb.one {
+    width: 300px;
+    height: 300px;
+
+    background: #5068b8;
+
+    top: 10%;
+    left: 10%;
+}
+
+.orb.two {
+    width: 250px;
+    height: 250px;
+
+    background: #7b5bb5;
+
+    bottom: 10%;
+    right: 10%;
+
+    animation-delay: 2s;
+}
+
+.orb.three {
+    width: 180px;
+    height: 180px;
+
+    background: #315f83;
+
+    bottom: 20%;
+    left: 35%;
+
+    animation-delay: 4s;
+}
+
+
+@keyframes float {
+
+    from {
+        transform:
+            translateY(-20px)
+            translateX(-10px);
+    }
+
+    to {
+        transform:
+            translateY(30px)
+            translateX(20px);
+    }
+}
+
+
+/* ==================================================
+   NAVBAR
+================================================== */
+
+nav {
+    width: 100%;
+
+    padding: 30px 8%;
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    position: absolute;
+
+    top: 0;
+
+    z-index: 10;
+}
+
+
+.logo {
+    font-size: 22px;
+
+    letter-spacing: 6px;
+
+    font-weight: bold;
+
+    color: #e7ecff;
+
+    text-decoration: none;
+
+    transition: 0.3s;
+}
+
+.logo:hover {
+    color: #ffffff;
+
+    text-shadow:
+        0 0 20px
+        rgba(160, 180, 255, 0.4);
+}
+
+
+.nav-links {
+    display: flex;
+
+    gap: 30px;
+}
+
+
+.nav-links a {
+    position: relative;
+
+    text-decoration: none;
+
+    color: #aeb7d4;
+
+    font-size: 14px;
+
+    transition: 0.3s;
+}
+
+
+.nav-links a:hover {
+    color: #ffffff;
+}
+
+
+.nav-links a.active {
+    color: #ffffff;
+}
+
+
+.nav-links a.active::after {
+    content: "";
+
+    position: absolute;
+
+    left: 0;
+    right: 0;
+
+    bottom: -8px;
+
+    height: 1px;
+
+    background:
+        linear-gradient(
+            90deg,
+            transparent,
+            #aebaff,
+            transparent
+        );
+}
+
+
+/* ==================================================
+   GENERAL TEXT
+================================================== */
+
+.small-text {
+    color: #8493ba;
+
+    letter-spacing: 5px;
+
+    font-size: 12px;
+
+    margin-bottom: 25px;
+}
+
+
+.bottom-text {
+    position: absolute;
+
+    bottom: 30px;
+
+    width: 100%;
+
+    text-align: center;
+
+    color: #59627d;
+
+    font-size: 12px;
+
+    letter-spacing: 2px;
+
+    pointer-events: none;
+}
+
+
+/* ==================================================
+   INDEX / HOME
+================================================== */
+
+main {
+    min-height: 100vh;
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    text-align: center;
+
+    padding: 100px 20px;
+}
+
+
+.hero {
+    max-width: 850px;
+
+    animation:
+        fadeIn 1.5s ease;
+}
+
+
+.hero h1 {
+    font-size:
+        clamp(
+            80px,
+            18vw,
+            180px
+        );
+
+    letter-spacing: 18px;
+
+    font-weight: 700;
+
+    background:
+        linear-gradient(
+            90deg,
+            #ffffff,
+            #aebbe7,
+            #8c8cc7,
+            #ffffff
+        );
+
+    -webkit-background-clip: text;
+    background-clip: text;
+
+    -webkit-text-fill-color: transparent;
+
+    text-shadow:
+        0 0 30px
+        rgba(160, 180, 255, 0.2);
+
+    margin-left: 18px;
+}
+
+
+.subtitle {
+    margin: 30px auto;
+
+    max-width: 600px;
+
+    color: #a8b0c8;
+
+    font-size: 17px;
+
+    line-height: 1.8;
+}
+
+
+.quote {
+    font-style: italic;
+
+    color: #c8d0ea;
+
+    margin-bottom: 40px;
+
+    font-size: 15px;
+}
+
+
+/* ==================================================
+   HOME BUTTON
+================================================== */
+
+.button {
+    display: inline-block;
+
+    padding: 15px 32px;
+
+    border-radius: 50px;
+
+    text-decoration: none;
+
+    color: #ffffff;
+
+    background:
+        rgba(255, 255, 255, 0.08);
+
+    border:
+        1px solid
+        rgba(255, 255, 255, 0.15);
+
+    backdrop-filter: blur(10px);
+
+    transition: 0.4s;
+}
+
+
+.button:hover {
+    background:
+        rgba(150, 170, 255, 0.18);
+
+    transform:
+        translateY(-4px);
+
+    box-shadow:
+        0 10px 30px
+        rgba(100, 120, 255, 0.15);
+}
+
+
+/* ==================================================
+   PAGE 1 — WRITE NOTES
+================================================== */
+
+.notes-page {
+    overflow: hidden;
+}
+
+
+.notes-container {
+    min-height: 100vh;
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    padding:
+        110px 20px 80px;
+}
+
+
+.notes-box {
+    width: 100%;
+
+    max-width: 850px;
+
+    padding: 45px;
+
+    border-radius: 30px;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(255, 255, 255, 0.07),
+            rgba(255, 255, 255, 0.025)
+        );
+
+    border:
+        1px solid
+        rgba(255, 255, 255, 0.1);
+
+    backdrop-filter: blur(20px);
+
+    box-shadow:
+        0 30px 80px
+        rgba(0, 0, 0, 0.3),
+
+        inset 0 1px 0
+        rgba(255, 255, 255, 0.06);
+
+    animation:
+        fadeIn 1s ease;
+}
+
+
+/* ==================================================
+   NOTES HEADER
+================================================== */
+
+.notes-header {
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    margin-bottom: 15px;
+}
+
+
+.notes-header h2 {
+    font-size: 48px;
+
+    font-weight: 500;
+
+    letter-spacing: 1px;
+
+    color: #edf0ff;
+}
+
+
+.notes-description {
+    color: #929dbc;
+
+    font-size: 15px;
+
+    line-height: 1.8;
+
+    max-width: 600px;
+
+    margin-bottom: 30px;
+}
+
+
+/* ==================================================
+   DATE BOX
+================================================== */
+
+.date-box {
+    width: 75px;
+    height: 75px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    justify-content: center;
+
+    align-items: center;
+
+    border-radius: 18px;
+
+    background:
+        rgba(255, 255, 255, 0.06);
+
+    border:
+        1px solid
+        rgba(255, 255, 255, 0.1);
+
+    box-shadow:
+        inset 0 1px 0
+        rgba(255, 255, 255, 0.05);
+}
+
+
+.date-box span {
+    font-size: 25px;
+
+    font-weight: bold;
+
+    color: #e7ecff;
+}
+
+
+.date-box small {
+    font-size: 10px;
+
+    letter-spacing: 2px;
+
+    color: #929dbc;
+}
+
+
+/* ==================================================
+   JOURNAL
+================================================== */
+
+.journal {
+    border-radius: 22px;
+
+    overflow: hidden;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(10, 15, 30, 0.8),
+            rgba(20, 25, 45, 0.55)
+        );
+
+    border:
+        1px solid
+        rgba(150, 170, 255, 0.12);
+
+    box-shadow:
+        inset 0 0 40px
+        rgba(0, 0, 0, 0.15),
+
+        0 15px 35px
+        rgba(0, 0, 0, 0.15);
+
+    transition: 0.4s;
+}
+
+
+.journal:focus-within {
+    border-color:
+        rgba(150, 170, 255, 0.35);
+
+    box-shadow:
+        0 0 35px
+        rgba(100, 120, 255, 0.1),
+
+        inset 0 0 40px
+        rgba(0, 0, 0, 0.2);
+}
+
+
+/* ==================================================
+   JOURNAL TOP
+================================================== */
+
+.journal-top {
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    padding:
+        15px 25px;
+
+    background:
+        rgba(255, 255, 255, 0.035);
+
+    border-bottom:
+        1px solid
+        rgba(255, 255, 255, 0.06);
+
+    color: #7e89aa;
+
+    font-size: 11px;
+
+    letter-spacing: 2px;
+}
+
+
+/* ==================================================
+   WRITING AREA
+================================================== */
+
+.writing-area {
+    display: flex;
+
+    height: 300px;
+
+    padding: 15px 0;
+
+    background-image:
+        linear-gradient(
+            rgba(255, 255, 255, 0.025) 1px,
+            transparent 1px
+        );
+
+    background-size:
+        100% 37px;
+}
+
+
+/* ==================================================
+   LINE NUMBERS
+================================================== */
+
+.line-numbers {
+    width: 60px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    gap: 19px;
+
+    padding-top: 4px;
+
+    border-right:
+        1px solid
+        rgba(255, 255, 255, 0.05);
+
+    color:
+        rgba(130, 145, 185, 0.4);
+
+    font-size: 11px;
+
+    font-family:
+        monospace;
+}
+
+
+/* ==================================================
+   TEXTAREA
+================================================== */
+
+#notes {
+    flex: 1;
+
+    width: 100%;
+
+    height: 100%;
+
+    resize: none;
+
+    border: none;
+
+    outline: none;
+
+    background: transparent;
+
+    color: #dfe5ff;
+
+    padding:
+        0 28px;
+
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+
+    font-size: 16px;
+
+    line-height: 37px;
+
+    letter-spacing: 0.2px;
+}
+
+
+#notes::placeholder {
+    color:
+        rgba(150, 160, 190, 0.45);
+}
+
+
+#notes::-webkit-scrollbar {
+    width: 5px;
+}
+
+
+#notes::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+
+#notes::-webkit-scrollbar-thumb {
+    background:
+        rgba(150, 160, 190, 0.2);
+
+    border-radius: 10px;
+}
+
+
+/* ==================================================
+   NOTE BUTTONS
+================================================== */
+
+.notes-actions {
+    display: flex;
+
+    gap: 15px;
+
+    margin-top: 25px;
+}
+
+
+.notes-actions button {
+    padding:
+        13px 25px;
+
+    border-radius: 50px;
+
+    border:
+        1px solid
+        rgba(255, 255, 255, 0.1);
+
+    color: #ffffff;
+
+    cursor: pointer;
+
+    font-size: 13px;
+
+    transition: 0.3s;
+}
+
+
+/* Save */
+
+.save-button {
+    background:
+        linear-gradient(
+            135deg,
+            rgba(110, 130, 220, 0.35),
+            rgba(120, 90, 180, 0.3)
+        );
+}
+
+
+.save-button:hover {
+    transform:
+        translateY(-3px);
+
+    box-shadow:
+        0 10px 25px
+        rgba(100, 120, 255, 0.2);
+}
+
+
+/* Clear */
+
+.clear-button {
+    background:
+        rgba(255, 255, 255, 0.04);
+
+    color: #9fa9c4 !important;
+}
+
+
+.clear-button:hover {
+    background:
+        rgba(255, 255, 255, 0.1);
+
+    transform:
+        translateY(-3px);
+
+    color: #ffffff !important;
+}
+
+
+/* ==================================================
+   SAVE STATUS
+================================================== */
+
+.save-status {
+    margin-top: 18px;
+
+    color: #68738f;
+
+    font-size: 12px;
+
+    letter-spacing: 0.5px;
+
+    transition: 0.3s;
+}
+
+
+/* ==================================================
+   PAGE 2 — SAVED NOTES
+================================================== */
+
+.saved-page {
+    overflow: hidden;
+}
+
+
+.saved-container {
+    min-height: 100vh;
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    padding:
+        120px 20px 80px;
+}
+
+
+.saved-box {
+    width: 100%;
+
+    max-width: 900px;
+
+    text-align: center;
+
+    padding: 20px;
+
+    max-height: 85vh;
+
+    overflow-y: auto;
+}
+
+
+.saved-box::-webkit-scrollbar {
+    width: 5px;
+}
+
+
+.saved-box::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+
+.saved-box::-webkit-scrollbar-thumb {
+    background:
+        rgba(130, 145, 185, 0.2);
+
+    border-radius: 10px;
+}
+
+
+/* ==================================================
+   SAVED TITLE
+================================================== */
+
+.saved-title {
+    font-size: 55px;
+
+    letter-spacing: 2px;
+
+    font-weight: 500;
+
+    margin: 15px 0;
+
+    color: #edf0ff;
+}
+
+
+.saved-description {
+    max-width: 600px;
+
+    margin:
+        0 auto 40px;
+
+    color: #929dbc;
+
+    line-height: 1.8;
+
+    font-size: 15px;
+}
+
+
+/* ==================================================
+   NOTES LIST
+================================================== */
+
+.notes-list {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 22px;
+
+    width: 100%;
+}
+
+
+/* ==================================================
+   SAVED NOTE CARD
+================================================== */
+
+.saved-note-card {
+    width: 100%;
+
+    text-align: left;
+
+    border-radius: 25px;
+
+    overflow: hidden;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(20, 25, 45, 0.85),
+            rgba(10, 15, 30, 0.65)
+        );
+
+    border:
+        1px solid
+        rgba(150, 170, 255, 0.12);
+
+    box-shadow:
+        0 20px 50px
+        rgba(0, 0, 0, 0.22),
+
+        inset 0 1px 0
+        rgba(255, 255, 255, 0.04);
+
+    backdrop-filter: blur(20px);
+
+    transition:
+        transform 0.3s ease,
+        border-color 0.3s ease,
+        box-shadow 0.3s ease;
+
+    animation:
+        fadeIn 0.5s ease;
+}
+
+
+.saved-note-card:hover {
+    transform:
+        translateY(-3px);
+
+    border-color:
+        rgba(150, 170, 255, 0.22);
+
+    box-shadow:
+        0 25px 60px
+        rgba(0, 0, 0, 0.28);
+}
+
+
+/* ==================================================
+   SAVED NOTE HEADER
+================================================== */
+
+.saved-note-header {
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    padding:
+        22px 28px;
+
+    border-bottom:
+        1px solid
+        rgba(255, 255, 255, 0.06);
+
+    background:
+        rgba(255, 255, 255, 0.025);
+}
+
+
+.journal-label {
+    color: #8795c5;
+
+    font-size: 10px;
+
+    letter-spacing: 2px;
+}
+
+
+.note-date {
+    margin-top: 7px;
+
+    color: #65708d;
+
+    font-size: 12px;
+}
+
+
+/* ==================================================
+   DELETE BUTTON
+================================================== */
+
+.delete-single {
+    width: 35px;
+
+    height: 35px;
+
+    border-radius: 50%;
+
+    border:
+        1px solid
+        rgba(255, 255, 255, 0.08);
+
+    background:
+        rgba(255, 255, 255, 0.04);
+
+    color: #7d87a1;
+
+    font-size: 20px;
+
+    line-height: 1;
+
+    cursor: pointer;
+
+    transition: 0.3s;
+}
+
+
+.delete-single:hover {
+    background:
+        rgba(255, 100, 120, 0.12);
+
+    color: #e8a9b5;
+
+    transform:
+        rotate(90deg);
+}
+
+
+/* ==================================================
+   SAVED NOTE CONTENT
+================================================== */
+
+.saved-note-content {
+    min-height: 120px;
+
+    padding:
+        28px 30px;
+
+    color: #dce3ff;
+
+    font-size: 15px;
+
+    line-height: 1.9;
+
+    background-image:
+        linear-gradient(
+            rgba(255, 255, 255, 0.02) 1px,
+            transparent 1px
+        );
+
+    background-size:
+        100% 36px;
+
+    word-wrap: break-word;
+}
+
+
+.saved-note-content p {
+    white-space: normal;
+
+    overflow-wrap: anywhere;
+}
+
+
+/* ==================================================
+   SAVED NOTE FOOTER
+================================================== */
+
+.saved-note-footer {
+    display: flex;
+
+    justify-content: space-between;
+
+    padding:
+        15px 28px;
+
+    border-top:
+        1px solid
+        rgba(255, 255, 255, 0.05);
+
+    color: #68738f;
+
+    font-size: 10px;
+
+    letter-spacing: 1px;
+}
+
+
+/* ==================================================
+   EMPTY NOTES
+================================================== */
+
+.empty-notes {
+    padding:
+        70px 30px;
+
+    border-radius: 25px;
+
+    background:
+        rgba(255, 255, 255, 0.03);
+
+    border:
+        1px solid
+        rgba(255, 255, 255, 0.08);
+
+    text-align: center;
+}
+
+
+.empty-icon {
+    font-size: 35px;
+
+    color: #8995c5;
+
+    margin-bottom: 15px;
+
+    text-shadow:
+        0 0 25px
+        rgba(140, 155, 255, 0.3);
+}
+
+
+.empty-notes h3 {
+    color: #dce3ff;
+
+    font-size: 20px;
+
+    font-weight: 400;
+
+    margin-bottom: 10px;
+}
+
+
+.empty-notes p {
+    color: #68738f;
+
+    font-size: 13px;
+}
+
+
+/* ==================================================
+   SAVED ACTIONS
+================================================== */
+
+.saved-actions {
+    display: flex;
+
+    justify-content: center;
+
+    gap: 15px;
+
+    margin-top: 30px;
+}
+
+
+/* Write Again */
+
+.write-again-button {
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    padding:
+        14px 28px;
+
+    border-radius: 50px;
+
+    text-decoration: none;
+
+    color: #ffffff;
+
+    font-size: 13px;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(100, 120, 220, 0.4),
+            rgba(120, 90, 180, 0.35)
+        );
+
+    border:
+        1px solid
+        rgba(150, 170, 255, 0.15);
+
+    transition: 0.3s;
+}
+
+
+.write-again-button:hover {
+    transform:
+        translateY(-3px);
+
+    box-shadow:
+        0 10px 30px
+        rgba(100, 120, 255, 0.2);
+}
+
+
+/* ==================================================
+   ANIMATION
+================================================== */
+
+@keyframes fadeIn {
+
+    from {
+        opacity: 0;
+
+        transform:
+            translateY(25px);
+    }
+
+    to {
+        opacity: 1;
+
+        transform:
+            translateY(0);
+    }
+}
+
+
+/* ==================================================
+   MOBILE
+================================================== */
+
+@media (max-width: 700px) {
+
+    nav {
+        padding: 25px;
+    }
+
+
+    .logo {
+        font-size: 18px;
+
+        letter-spacing: 4px;
+    }
+
+
+    .nav-links {
+        gap: 15px;
+    }
+
+
+    .nav-links a {
+        font-size: 12px;
+    }
+
+
+    .hero h1 {
+        letter-spacing: 10px;
+    }
+
+
+    .subtitle {
+        font-size: 15px;
+    }
+
+
+    .notes-box {
+        padding:
+            30px 20px;
+    }
+
+
+    .notes-header h2 {
+        font-size: 38px;
+    }
+
+
+    .writing-area {
+        height: 260px;
+    }
+
+
+    .line-numbers {
+        width: 45px;
+
+        gap: 19px;
+    }
+
+
+    #notes {
+        padding:
+            0 15px;
+
+        font-size: 14px;
+    }
+
+
+    .journal-top {
+        padding:
+            14px 17px;
+    }
+
+
+    .saved-container {
+        padding:
+            100px 15px 50px;
+    }
+
+
+    .saved-box {
+        padding: 10px;
+
+        max-height: 88vh;
+    }
+
+
+    .saved-title {
+        font-size: 42px;
+    }
+
+
+    .saved-description {
+        font-size: 14px;
+
+        margin-bottom: 25px;
+    }
+
+
+    .saved-note-header {
+        padding:
+            18px 20px;
+    }
+
+
+    .saved-note-content {
+        padding:
+            22px 20px;
+
+        min-height: 100px;
+
+        font-size: 14px;
+    }
+
+
+    .saved-note-footer {
+        padding:
+            14px 20px;
+    }
+
+
+    .saved-actions {
+        flex-direction: column;
+
+        align-items: center;
+    }
+
+
+    .write-again-button {
+        width: 210px;
+    }
+
+
+    .bottom-text {
+        display: none;
+    }
+
+}
+
+
+/* ==================================================
+   VERY SMALL SCREEN
+================================================== */
+
+@media (max-width: 450px) {
+
+    .nav-links {
+        gap: 10px;
+    }
+
+
+    .nav-links a {
+        font-size: 10px;
+    }
+
+
+    .notes-header h2 {
+        font-size: 32px;
+    }
+
+
+    .date-box {
+        width: 60px;
+
+        height: 60px;
+    }
+
+
+    .date-box span {
+        font-size: 20px;
+    }
+
+
+    .notes-actions {
+        flex-direction: column;
+    }
+
+
+    .notes-actions button {
+        width: 100%;
+    }
+
+
+    .saved-title {
+        font-size: 36px;
+    }
+
+}
+/* ==================================================
+   EDIT BUTTON
+================================================== */
+
+.edit-single {
+    width: 35px;
+    height: 35px;
+
+    border-radius: 50%;
+
+    border:
+        1px solid
+        rgba(255, 255, 255, 0.08);
+
+    background:
+        rgba(255, 255, 255, 0.04);
+
+    color: #8998c7;
+
+    font-size: 17px;
+
+    cursor: pointer;
+
+    transition: 0.3s;
+}
+
+.edit-single:hover {
+    background:
+        rgba(120, 150, 255, 0.14);
+
+    color: #cbd5ff;
+
+    transform:
+        translateY(-2px);
+}
