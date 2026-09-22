@@ -91,6 +91,22 @@
         <div class="notes-actions">
 
             <button
+                id="undoButton"
+                class="clear-button"
+                type="button"
+            >
+                Undo
+            </button>
+
+            <button
+                id="redoButton"
+                class="clear-button"
+                type="button"
+            >
+                Redo
+            </button>
+
+            <button
                 id="saveButton"
                 class="save-button"
                 type="button"
@@ -157,6 +173,8 @@
     const saveButton = document.getElementById("saveButton");
     const saveButtonText = document.getElementById("saveButtonText");
     const clearButton = document.getElementById("clearButton");
+    const undoButton = document.getElementById("undoButton");
+    const redoButton = document.getElementById("redoButton");
     const pageLabel = document.getElementById("pageLabel");
     const pageTitle = document.getElementById("pageTitle");
 
@@ -328,6 +346,7 @@
     function clearNote() {
         textarea.value = "";
         updateWordCount();
+        recordHistory();
 
         statusText.textContent =
             "Your journal is ready for new thoughts.";
@@ -337,27 +356,101 @@
 
 
     /* =====================================
+       HISTORY / UNDO REDO
+    ===================================== */
+
+    let history = [""];
+    let historyIndex = 0;
+
+    function recordHistory() {
+        const currentValue = textarea.value;
+
+        if (history[historyIndex] !== currentValue) {
+            history = history.slice(0, historyIndex + 1);
+            history.push(currentValue);
+            historyIndex = history.length - 1;
+
+            if (history.length > 100) {
+                history.shift();
+                historyIndex = history.length - 1;
+            }
+        }
+    }
+
+    function applyHistoryValue(nextValue) {
+        textarea.value = nextValue;
+        updateWordCount();
+    }
+
+    function undoText() {
+        if (historyIndex <= 0) {
+            return;
+        }
+
+        historyIndex -= 1;
+        applyHistoryValue(history[historyIndex]);
+    }
+
+    function redoText() {
+        if (historyIndex >= history.length - 1) {
+            return;
+        }
+
+        historyIndex += 1;
+        applyHistoryValue(history[historyIndex]);
+    }
+
+
+    /* =====================================
        BUTTONS
     ===================================== */
 
     saveButton.addEventListener("click", saveNote);
     clearButton.addEventListener("click", clearNote);
+    undoButton.addEventListener("click", undoText);
+    redoButton.addEventListener("click", redoText);
 
 
     /* =====================================
-       CTRL + ENTER
+       CTRL + ENTER / UNDO / REDO
     ===================================== */
 
+    textarea.addEventListener("input", function() {
+        updateWordCount();
+        recordHistory();
+    });
+
     textarea.addEventListener("keydown", function(event) {
+        const isModifierPressed = event.ctrlKey || event.metaKey;
+
         if (event.ctrlKey && event.key === "Enter") {
             event.preventDefault();
             saveNote();
+            return;
+        }
+
+        if (!isModifierPressed) {
+            return;
+        }
+
+        const key = event.key.toLowerCase();
+
+        if (key === "z" && !event.shiftKey) {
+            event.preventDefault();
+            undoText();
+            return;
+        }
+
+        if (key === "y" || (key === "z" && event.shiftKey)) {
+            event.preventDefault();
+            redoText();
         }
     });
 
 
     updateWordCount();
     loadNoteForEditing();
+    recordHistory();
 </script>
 ```
 
