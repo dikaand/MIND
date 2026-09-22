@@ -21,7 +21,8 @@ body {
     background: #080b14;
     color: #ffffff;
 
-    overflow: hidden;
+    overflow-x: hidden;
+    overflow-y: auto;
 }
 
 
@@ -842,8 +843,9 @@ main {
    PAGE 2 — SAVED NOTES
 ================================================== */
 
-.saved-page {
-    overflow: hidden;
+.saved-page,
+.notes-page {
+    overflow: auto;
 }
 
 
@@ -1318,6 +1320,17 @@ main {
 
     .notes-header h2 {
         font-size: 38px;
+    }
+
+
+    .notes-actions {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+
+    .notes-actions button {
+        width: 100%;
     }
 
 
