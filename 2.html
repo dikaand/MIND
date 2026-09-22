@@ -168,6 +168,8 @@
 
             card.className = "saved-note-card";
 
+            const previewText = getPreviewText(note.text, 8);
+
             card.innerHTML = `
                 <div class="saved-note-header">
                     <div>
@@ -205,7 +207,7 @@
 
                 <div class="saved-note-content">
                     <p>
-                        ${escapeHTML(note.text).replace(/\n/g, "<br>")}
+                        ${escapeHTML(previewText)}
                     </p>
                 </div>
 
@@ -228,6 +230,21 @@
         const div = document.createElement("div");
         div.textContent = text ?? "";
         return div.innerHTML;
+    }
+
+    function getPreviewText(text, maxWords = 8) {
+        const cleaned = String(text ?? "")
+            .replace(/\s+/g, " ")
+            .trim();
+
+        if (!cleaned) {
+            return "No content";
+        }
+
+        const words = cleaned.split(" ");
+        const preview = words.slice(0, maxWords).join(" ");
+
+        return words.length > maxWords ? preview + "..." : preview;
     }
 
 
